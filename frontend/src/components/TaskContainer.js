@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Task from './Task';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
+import { DragDropContext,Droppable,Draggable } from 'react-beautiful-dnd';
 const TaskContainer = () => {
   const [tasks, setTasks] = useState([]);
   const [taskName, setTaskName] = useState('');
@@ -33,7 +34,6 @@ const TaskContainer = () => {
   };
   return (
     <div>
-      <h1>Task Container</h1>
       <div>
         <input
           type="text"
@@ -59,7 +59,7 @@ const TaskContainer = () => {
           comments={task.comments}
           addComment={() => addComment(index)}
         />
-      ))}
+        ))}
     </div>
   );
 };
