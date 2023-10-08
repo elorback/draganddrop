@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Container} from 'react-bootstrap';
-const Task = ({ name, description, comments }) => {
+const Task = ({ name, description,key, comments }) => {
   const [commentText, setCommentText] = useState('');
 
   const handleAddComment = () => {
@@ -16,9 +16,12 @@ const Task = ({ name, description, comments }) => {
 
   return (
     <Container>
-      <h3>{name}</h3>
-      <p>{description}</p>
       <div>
+      <h3>{"Task: " + name }</h3>
+      <h3>{"Task number: " + key }</h3>
+
+      <p>{"Description: " +description}</p>
+      
         <input
           type="text"
           placeholder="Add a comment"

@@ -1,20 +1,23 @@
-// TaskContainer.js
 import React, { useState } from 'react';
-import Task from './Task';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
-import { DragDropContext,Droppable,Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import Task from './Task'
+
+
 const TaskContainer = () => {
   const [tasks, setTasks] = useState([]);
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
-  const [commentText, setCommentText] = useState("");
+  const [commentText, setCommentText] = useState('');
 
   const addTask = () => {
     if (taskName.trim() !== '') {
       const newTask = {
+        id: `${taskName}-${tasks.length}`, // Assign a unique ID to each task
         name: taskName,
         description: taskDescription,
+       
         comments: [],
       };
       setTasks([...tasks, newTask]);
@@ -29,9 +32,17 @@ const TaskContainer = () => {
       updatedTasks[taskIndex].comments.push(commentText);
       setTasks(updatedTasks);
       setCommentText('');
-      console.log(commentText)
     }
   };
+
+  const onDragEnd = (result) => {
+    if (!result.destination) return; // Dropped outside the list
+    const reorderedTasks = [...tasks];
+    const [reorderedTask] = reorderedTasks.splice(result.source.index, 1);
+    reorderedTasks.splice(result.destination.index, 0, reorderedTask);
+    setTasks(reorderedTasks);
+  };
+
   return (
     <div>
       <div>
@@ -41,25 +52,48 @@ const TaskContainer = () => {
           value={taskName}
           onChange={(e) => setTaskName(e.target.value)}
         />
-        <br/>
+        <br />
         <input
           type="text"
           placeholder="Task Description"
           value={taskDescription}
           onChange={(e) => setTaskDescription(e.target.value)}
         />
-        <br/>
+        <br />
         <Button onClick={addTask}>Add Task</Button>
       </div>
-      {tasks.map((task, index) => (
-        <Task
-          key={index}
-          name={task.name}
-          description={task.description}
-          comments={task.comments}
-          addComment={() => addComment(index)}
-        />
-        ))}
+
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="task-list">
+          {(provided) => (
+            <ul {...provided.droppableProps} ref={provided.innerRef}>
+              {tasks.map((task, index) => (
+                <Draggable
+                  key={task.id}
+                  draggableId={task.id}
+                  index={index}
+                >
+                  {(provided) => (
+                    <li
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      ref={provided.innerRef}
+                    >
+                      <Task
+                        key={task.id}
+                        name={task.name}
+                        description={task.description}
+                        comments={task.comments}
+                        addComment={() => addComment(index)}
+                      />
+                    </li>
+                  )}
+                </Draggable>
+              ))}
+            </ul>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 };
