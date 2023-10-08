@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Container} from 'react-bootstrap';
-const Task = ({ name, description,key, comments }) => {
+const Task = ({ name, description,order, comments }) => {
   const [commentText, setCommentText] = useState('');
 
   const handleAddComment = () => {
@@ -18,7 +18,7 @@ const Task = ({ name, description,key, comments }) => {
     <Container>
       <div>
       <h3>{"Task: " + name }</h3>
-      <h3>{"Task number: " + key }</h3>
+      <h3>{"Task number: " + order }</h3>
 
       <p>{"Description: " +description}</p>
       

@@ -10,14 +10,15 @@ const TaskContainer = () => {
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
   const [commentText, setCommentText] = useState('');
+ 
 
   const addTask = () => {
     if (taskName.trim() !== '') {
       const newTask = {
-        id: `${taskName}-${tasks.length}`, // Assign a unique ID to each task
+        id: `${taskName}-${tasks.length}`, // Assignn a unique ID to each task
         name: taskName,
         description: taskDescription,
-       
+        order: tasks.length +1,
         comments: [],
       };
       setTasks([...tasks, newTask]);
@@ -42,7 +43,6 @@ const TaskContainer = () => {
     reorderedTasks.splice(result.destination.index, 0, reorderedTask);
     setTasks(reorderedTasks);
   };
-
   return (
     <div>
       <div>
@@ -84,7 +84,9 @@ const TaskContainer = () => {
                         name={task.name}
                         description={task.description}
                         comments={task.comments}
+                        order= {task.order}
                         addComment={() => addComment(index)}
+                       
                       />
                     </li>
                   )}
