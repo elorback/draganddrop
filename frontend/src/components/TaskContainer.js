@@ -42,10 +42,12 @@ const TaskContainer = () => {
     reorderedTasks.splice(result.destination.index, 0, reorderedTask);
     setTasks(reorderedTasks);
   };
+
+
   return (
     <Container className="d-flex flex-column align-items-center justify-content-center" style={{padding:"5px"}}>
       
-             <h1>Task List</h1>
+      <h1>Task List</h1>
       <h4>Add Tasks Below</h4>
         <input
           type="text"
