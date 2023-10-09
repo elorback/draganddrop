@@ -10,6 +10,9 @@ const TaskContainer = () => {
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
   const [commentText, setCommentText] = useState('');
+
+  let currentorder = Array.from(Array(tasks.length).keys());
+
  
   const addTask = () => {
     if (taskName.trim() !== '') {
@@ -41,13 +44,13 @@ const TaskContainer = () => {
     const [reorderedTask] = reorderedTasks.splice(result.source.index, 1);
     reorderedTasks.splice(result.destination.index, 0, reorderedTask);
     setTasks(reorderedTasks);
+    
   };
-
 
   return (
     <Container className="d-flex flex-column align-items-center justify-content-center" style={{padding:"5px"}}>
       
-      <h1>Task List</h1>
+             <h1>Task List</h1>
       <h4>Add Tasks Below</h4>
         <input
           type="text"
@@ -76,12 +79,17 @@ const TaskContainer = () => {
                   draggableId={task.id}
                   index={index}
                 >
+                 
                   {(provided) => (
-                    <li
+                 
+                    <ul
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                       ref={provided.innerRef}
                     >
+                          <h4>
+                     Task Number: {currentorder[index] +1}
+                             </h4>
                       <Task
                         key={task.id}
                         name={task.name}
@@ -91,7 +99,7 @@ const TaskContainer = () => {
                         addComment={() => addComment(index)}
                        
                       />
-                    </li>
+                    </ul>
                   )}
                 </Draggable>
               ))}
