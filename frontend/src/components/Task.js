@@ -1,7 +1,8 @@
 // Task.js
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Container} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 const Task = ({ name, description,order, comments }) => {
   const [commentText, setCommentText] = useState('');
 
@@ -15,12 +16,14 @@ const Task = ({ name, description,order, comments }) => {
 
 
   return (
-    <Container>
+    <Card>
+    <Card.Body>
       <div>
-      <h3>{"Task: " + name }</h3>
-      <h3>{"Task number: " + order }</h3>
-
-      <p>{"Description: " +description}</p>
+      <Card.Title>{"Task: " + name}</Card.Title>
+      <Card.Header>{"Task number: " + order }</Card.Header>
+      <br/>
+      <br/>
+      <Card.Text>{"Description: " +description}</Card.Text>
       
         <input
           type="text"
@@ -31,11 +34,14 @@ const Task = ({ name, description,order, comments }) => {
         <Button onClick={handleAddComment}>Add Comment</Button>
       </div>
       <ul>
+        <Card.Text>
         {comments.map((comment, index) => (
           <li key={index}>{comment}</li>
         ))}
+        </Card.Text>
       </ul>
-    </Container>
+    </Card.Body>
+    </Card>
   );
 };
 

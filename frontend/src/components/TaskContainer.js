@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Task from './Task'
 
@@ -11,7 +11,6 @@ const TaskContainer = () => {
   const [taskDescription, setTaskDescription] = useState('');
   const [commentText, setCommentText] = useState('');
  
-
   const addTask = () => {
     if (taskName.trim() !== '') {
       const newTask = {
@@ -44,8 +43,10 @@ const TaskContainer = () => {
     setTasks(reorderedTasks);
   };
   return (
-    <div>
-      <div>
+    <Container className="d-flex flex-column align-items-center justify-content-center" style={{padding:"5px"}}>
+      
+             <h1>Task List</h1>
+      <h4>Add Tasks Below</h4>
         <input
           type="text"
           placeholder="Task Name"
@@ -60,8 +61,8 @@ const TaskContainer = () => {
           onChange={(e) => setTaskDescription(e.target.value)}
         />
         <br />
-        <Button onClick={addTask}>Add Task</Button>
-      </div>
+        <Button onClick={addTask}>Add Task</Button> 
+     
 
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="task-list">
@@ -96,7 +97,7 @@ const TaskContainer = () => {
           )}
         </Droppable>
       </DragDropContext>
-    </div>
+    </Container>
   );
 };
 
