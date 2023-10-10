@@ -11,20 +11,46 @@ const TaskContainer = () => {
   const [taskDescription, setTaskDescription] = useState('');
   const [commentText, setCommentText] = useState('');
  
-  const addTask = () => {
+  const addTask = async () => {
     if (taskName.trim() !== '') {
       const newTask = {
-        id: `${taskName}-${tasks.length}`, // Assignn a unique ID to each task
+        id: `${taskName}-${tasks.length}`,
         name: taskName,
         description: taskDescription,
-        order: tasks.length +1,
+        order: tasks.length + 1,
         comments: [],
       };
+  
+      // Send the newTask data to your API endpoint to save it to the database
+      try {
+        const response = await fetch('YOUR_API_ENDPOINT', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newTask),
+        });
+  
+        if (response.ok) {
+          // Successfully added the task to the database
+          const responseData = await response.json();
+          // You may want to handle the response data as needed
+          console.log('Task saved to database:', responseData);
+        } else {
+          // Handle the error if the API request fails
+          console.error('Failed to save task to the database');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+  
+      // Update the local state with the new task
       setTasks([...tasks, newTask]);
       setTaskName('');
       setTaskDescription('');
     }
   };
+  
 
   const addComment = (taskIndex) => {
     if (commentText.trim() !== '') {
@@ -43,7 +69,7 @@ const TaskContainer = () => {
     setTasks(reorderedTasks);
   };
 
-
+  
   return (
     <Container className="d-flex flex-column align-items-center justify-content-center" style={{padding:"5px"}}>
       
@@ -77,11 +103,12 @@ const TaskContainer = () => {
                   index={index}
                 >
                   {(provided) => (
-                    <li
+                    <ul
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                       ref={provided.innerRef}
                     >
+                      <h3>Current Order: {index + 1}</h3>
                       <Task
                         key={task.id}
                         name={task.name}
@@ -91,7 +118,7 @@ const TaskContainer = () => {
                         addComment={() => addComment(index)}
                        
                       />
-                    </li>
+                    </ul>
                   )}
                 </Draggable>
               ))}
