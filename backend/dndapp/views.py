@@ -13,10 +13,9 @@ class TaskView(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = TaskSerializer(data=request.data)
-        print(f'\n\n serializer is: {serializer}')
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            task = serializer.save()
+            return Response(TaskSerializer(task).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CommentView(generics.ListCreateAPIView):
@@ -28,6 +27,6 @@ class CommentView(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = CommentsSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            comment = serializer.save()
+            return Response(CommentsSerializer(comment).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
