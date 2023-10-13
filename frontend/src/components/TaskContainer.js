@@ -21,36 +21,46 @@ const TaskContainer = () => {
         comments: [],
       };
   
-      // Send the newTask data to your API endpoint to save it to the database
-      try {
-        const response = await fetch('YOUR_API_ENDPOINT', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newTask),
-        });
-  
-        if (response.ok) {
+      fetch('http://localhost:8000/api/createTask', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTask),
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log(response.json())
+            return response.json(); // Parse the response as JSON
+          } else {
+            throw new Error('Failed to save task to the database');
+          }
+        })
+        .then((responseData) => {
           // Successfully added the task to the database
-          const responseData = await response.json();
-          // You may want to handle the response data as needed
           console.log('Task saved to database:', responseData);
-        } else {
-          // Handle the error if the API request fails
-          console.error('Failed to save task to the database');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      }
+          // Update the local state with the new task
+          setTasks([...tasks, newTask]);
+          setTaskName('');
+          setTaskDescription('');
+        })
+        .catch((error) => {
+          // Handle any errors that occurred during the fetch
+          console.error('Error:', error);
+        });
   
       // Update the local state with the new task
       setTasks([...tasks, newTask]);
       setTaskName('');
       setTaskDescription('');
     }
+    
   };
   
+// useEffect(async ()=>{
+//   fetch('api/getTasks').then((response)=>{})
+
+// },[tasks])
 
   const addComment = (taskIndex) => {
     if (commentText.trim() !== '') {
