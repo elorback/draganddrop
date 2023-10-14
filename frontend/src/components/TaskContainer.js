@@ -21,7 +21,7 @@ const TaskContainer = () => {
         comments: [],
       };
   
-      fetch('http://localhost:8000/api/createTask', {
+      fetch('http://localhost:8000/api/addTask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,9 +50,9 @@ const TaskContainer = () => {
         });
   
       // Update the local state with the new task
-      setTasks([...tasks, newTask]);
-      setTaskName('');
-      setTaskDescription('');
+       setTasks([...tasks, newTask]);
+       setTaskName('');
+       setTaskDescription('');
     }
     
   };
@@ -62,14 +62,44 @@ const TaskContainer = () => {
 
 // },[tasks])
 
-  const addComment = (taskIndex) => {
-    if (commentText.trim() !== '') {
-      const updatedTasks = [...tasks];
-      updatedTasks[taskIndex].comments.push(commentText);
+const addComment = async (taskIndex) => {
+  if (commentText.trim() !== '') {
+    const updatedTasks = [...tasks];
+    const newComment = {
+      task_comment: commentText,
+      task_name: updatedTasks[taskIndex].name, // Assuming you want to associate the comment with the task's name
+    };
+
+    fetch('http://localhost:8000/api/addComment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newComment), // Send the newComment object
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json(); // Parse the response as JSON
+        } else {
+          throw new Error('Failed to save comment to the database');
+        }
+      })
+      .then((responseData) => {
+        // Successfully added the comment to the database
+        console.log('Comment saved to database:', responseData);
+        updatedTasks[taskIndex].comments.push(responseData); // Update the local state with the new comment
+        setTasks(updatedTasks);
+        setCommentText('');
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the fetch
+        console.error('Error:', error);
+      });
       setTasks(updatedTasks);
       setCommentText('');
-    }
-  };
+  }
+};
+
 
   const onDragEnd = (result) => {
     if (!result.destination) return; // Dropped outside the list

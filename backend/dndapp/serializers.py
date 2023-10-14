@@ -7,7 +7,7 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'sorted_order', 'date_created', 'date_updated', 'date_deleted']
 
 class CommentsSerializer(serializers.ModelSerializer):
-    task = TaskSerializer()  # Assuming task is a ForeignKey relation to Tasks
+    task = TaskSerializer()  
     class Meta:
         model = Comments
         fields = ['id', 'task', 'task_comment', 'date_created', 'date_updated', 'date_deleted']
