@@ -8,6 +8,7 @@ const Task = ({ name, description, order, comments }) => {
   const [commentText, setCommentText] = useState('');
   const [taskDescription, setTaskDescription] = useState(description);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
+  const [isVisible, setVisibility] =useState(false);
 
   const handleAddComment = () => {
     if (commentText.trim() !== '') {
@@ -25,9 +26,14 @@ const Task = ({ name, description, order, comments }) => {
     setIsEditingDescription(false);
   };
 
+  const handleVisibilityChange = () =>{
+    setVisibility(!isVisible);
+  }
+
   return (
     <Card>
       <Card.Body>
+        
         <div>
           <Card.Title>Task: {name}</Card.Title>
           <Card.Header>Task number: {order}</Card.Header>
@@ -54,7 +60,7 @@ const Task = ({ name, description, order, comments }) => {
             placeholder="Add a comment"
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
-          />
+            />
           <Button onClick={handleAddComment}>Add Comment</Button>
         </div>
         <ul>
