@@ -3,12 +3,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { InputGroup, Form } from 'react-bootstrap';
+import TaskCard from './TaskCard';
+import { Modal } from 'react-bootstrap';
 
 const Task = ({ name, description, order, comments }) => {
   const [commentText, setCommentText] = useState('');
   const [taskDescription, setTaskDescription] = useState(description);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
-  // const [isVisible, setVisibility] =useState(false);
 
   const handleAddComment = () => {
     if (commentText.trim() !== '') {
@@ -26,17 +27,13 @@ const Task = ({ name, description, order, comments }) => {
     setIsEditingDescription(false);
   };
 
-  // const handleVisibilityChange = () =>{
-  //   setVisibility(!isVisible);
-  // }
 
   return (
-    <Card>
-      <Card.Body>
-        
+    <Modal>
+      <Modal.Body>
         <div>
-          <Card.Title>Task: {name}</Card.Title>
-          <Card.Header>Task number: {order}</Card.Header>
+          <Modal.Title>Task: {name}</Modal.Title>
+          <Modal.Header>Task number: {order}</Modal.Header>
           {isEditingDescription ? (
             <InputGroup>
               <Form.Control
@@ -64,14 +61,14 @@ const Task = ({ name, description, order, comments }) => {
           <Button onClick={handleAddComment}>Add Comment</Button>
         </div>
         <ul>
-          <Card.Text>
+          <Modal.Text>
             {comments.map((comment, index) => (
               <li key={index}>{comment}</li>
             ))}
-          </Card.Text>
+          </Modal.Text>
         </ul>
-      </Card.Body>
-    </Card>
+      </Modal.Body>
+    </Modal>
   );
 };
 

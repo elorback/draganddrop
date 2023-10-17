@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Container } from 'react-bootstrap';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Task from './Task'
+import TaskCard from './TaskCard';
 
 
 const TaskContainer = () => {
@@ -10,6 +11,12 @@ const TaskContainer = () => {
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
   const [commentText, setCommentText] = useState('');
+  const [showCard, setShowCard] = useState(false);
+
+  const handleShowCard = () => {
+    setShowCard(!showCard);
+  }
+
  
   const addTask = async () => {
     if (taskName.trim() !== '') {
@@ -105,7 +112,8 @@ const TaskContainer = () => {
                       ref={provided.innerRef}
                     >
                       <h3>Current Order: {index + 1}</h3>
-                      <Task
+                      
+                      <TaskCard
                         key={task.id}
                         name={task.name}
                         description={task.description}
