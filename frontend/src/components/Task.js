@@ -8,7 +8,7 @@ const Task = ({ name, description, order, comments }) => {
   const [commentText, setCommentText] = useState('');
   const [taskDescription, setTaskDescription] = useState(description);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
-  const [isVisible, setVisibility] =useState(false);
+  // const [isVisible, setVisibility] =useState(false);
 
   const handleAddComment = () => {
     if (commentText.trim() !== '') {
@@ -26,9 +26,9 @@ const Task = ({ name, description, order, comments }) => {
     setIsEditingDescription(false);
   };
 
-  const handleVisibilityChange = () =>{
-    setVisibility(!isVisible);
-  }
+  // const handleVisibilityChange = () =>{
+  //   setVisibility(!isVisible);
+  // }
 
   return (
     <Card>
