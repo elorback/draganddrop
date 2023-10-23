@@ -9,7 +9,14 @@ class TaskView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return Tasks.objects.all()
-
+    
+    def list(self,request,*args,**kwargs):
+        q_set = self.get_queryset()
+        serializer = TaskSerializer(q_set,many=True)
+        jsondata = [data for data in serializer.data]
+        print(serializer.data)        
+        return Response(serializer.data)
+        
     def post(self, request, *args, **kwargs):
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid():

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 import { InputGroup, Form } from 'react-bootstrap';
-import TaskCard from './TaskCard';
-import { Modal } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 const Task = ({ name, description, order, comments }) => {
   const [commentText, setCommentText] = useState('');
@@ -29,11 +27,11 @@ const Task = ({ name, description, order, comments }) => {
 
 
   return (
-    <Modal>
-      <Modal.Body>
+    <Card>
+      <Card.Body>
         <div>
-          <Modal.Title>Task: {name}</Modal.Title>
-          <Modal.Header>Task number: {order}</Modal.Header>
+          <Card.Title>Task: {name}</Card.Title>
+          <Card.Header>Task number: {order}</Card.Header>
           {isEditingDescription ? (
             <InputGroup>
               <Form.Control
@@ -61,14 +59,14 @@ const Task = ({ name, description, order, comments }) => {
           <Button onClick={handleAddComment}>Add Comment</Button>
         </div>
         <ul>
-          <Modal.Text>
+          <Card.Text>
             {comments.map((comment, index) => (
               <li key={index}>{comment}</li>
             ))}
-          </Modal.Text>
+          </Card.Text>
         </ul>
-      </Modal.Body>
-    </Modal>
+      </Card.Body>
+    </Card>
   );
 };
 
