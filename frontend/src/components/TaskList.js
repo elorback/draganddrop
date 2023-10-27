@@ -15,8 +15,8 @@ const TaskList = ({tasks}) => {
             >
               <h3>Current Order: {index+1}</h3>
               <TaskCard className="d-flex flex-column align-items-center justify-content-center" style={{ padding: '5px' }}
+                id= {task.id}
                 name={task.name}
-                id= {task.strID}
                 description={task.description}
                 order={task.sorted_order}
               />

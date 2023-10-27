@@ -1,38 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import { InputGroup, Form } from 'react-bootstrap';
-import { Card } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 
-const Task = ({ name, description, order, comments }) => {
+const Task = ({id,name, description, order, show, handleClose }) => {
   const [commentText, setCommentText] = useState('');
   const [taskDescription, setTaskDescription] = useState(description);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
+ 
 
   const handleAddComment = () => {
-    if (commentText.trim() !== '') {
-      setCommentText('');
-      comments.push(commentText);
-    }
+    // if (commentText.trim() !== '') {
+    //   comments.push(commentText);
+    //   setCommentText('');
+    // }
   };
 
   const handleUpdateDescription = () => {
-    setIsEditingDescription(false);
+    // Create an object with the updated description
+    const updatedTask = {
+      description: taskDescription,
+    };
+  
+    const updateDescription = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/api/tasks/${id}/`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedTask), // Send the updatedTask object
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to update task description');
+        }
+  
+        // You can update your state or perform any other actions here.
+        // For example, you might want to refresh the task details.
+        // setTaskDescription(updatedTask.description);
+        setIsEditingDescription(false);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    updateDescription();
   };
+  
 
   const handleCancelUpdate = () => {
     setTaskDescription(description);
     setIsEditingDescription(false);
   };
 
+  useEffect(()=>{
 
-  return (
-    <Card>
-      <Card.Body>
-        <div>
-          <Card.Title>Task: {name}</Card.Title>
-          <Card.Header>Task number: {order}</Card.Header>
-          {isEditingDescription ? (
+
+
+  },[])
+
+
+ 
+return (
+  <Modal show={show} onHide={handleClose}>
+    <Modal.Header closeButton>  
+      <Modal.Title> Task: {name} <br/>Task Number: {order}
+      <br/>
+      Task Description: {description}
+      {isEditingDescription ? (
             <InputGroup>
               <Form.Control
                 type="text"
@@ -44,12 +81,20 @@ const Task = ({ name, description, order, comments }) => {
             </InputGroup>
           ) : (
             <div>
-              <p>Description: {taskDescription}</p>
               <Button onClick={() => setIsEditingDescription(true)}>Edit Description</Button>
             </div>
-          )}
-          <br />
-          <br />
+          )}</Modal.Title>
+    </Modal.Header>
+    
+    <Modal.Body>
+        {/* <ul>
+            {comments.map((comment, index) => (
+              <li key={index}>{comment}</li>
+            ))}
+        </ul> */}
+    </Modal.Body>
+      <Modal.Footer>
+          <div>         
           <input
             type="text"
             placeholder="Add a comment"
@@ -58,16 +103,8 @@ const Task = ({ name, description, order, comments }) => {
             />
           <Button onClick={handleAddComment}>Add Comment</Button>
         </div>
-        <ul>
-          <Card.Text>
-            {comments.map((comment, index) => (
-              <li key={index}>{comment}</li>
-            ))}
-          </Card.Text>
-        </ul>
-      </Card.Body>
-    </Card>
+      </Modal.Footer>
+    </Modal>
   );
 };
-
 export default Task;

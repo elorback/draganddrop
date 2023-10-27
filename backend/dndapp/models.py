@@ -9,7 +9,6 @@ class Tasks(models.Model):
     sorted_order = models.IntegerField(default=0)
     date_created = models.DateField(auto_now=True)
     date_updated = models.DateField(auto_now=True)
-    date_deleted = models.DateField(auto_now=True)
     
     def __str__(self):
         return self.name
@@ -17,13 +16,13 @@ class Tasks(models.Model):
         db_table = 'Tasks'
 
 class Comments(models.Model):
+    strID= models.CharField(max_length=50)
     task_comment = models.CharField(max_length=150)
     task_name = models.ForeignKey(Tasks, on_delete=models.CASCADE)
     date_created = models.DateField(auto_now=True)
     date_updated = models.DateField(auto_now=True)
-    date_deleted = models.DateField(auto_now=True)
     
     def __str__(self):
-        return self.task_comment
+        return self.task_name
     class Meta:
         db_table = 'Comments'
