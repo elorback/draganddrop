@@ -16,24 +16,28 @@ const TaskContainer = () => {
   const fetchTasks = async () => {
     try {
       const response = await fetch('http://localhost:8000/api/tasks/');
-
+  
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
-
+  
       const data = await response.json();
-      setTasks([...data]);
+      const taskswithID = data.map((task,strID)=>({...task,id:strID}))
+
+  
+      setTasks(taskswithID);
     } catch (error) {
       console.error('Error: ', error);
     }
   };
+  
   const addTask = async () => {
     if (taskName.trim() !== '') {
       const newTask = {
-        id: `${taskName}-${tasks.length}`, // Use backticks for string interpolation
+        strID: `${taskName}:${tasks.length}`,
         name: taskName,
         description: taskDescription,
-        sorted_order: tasks.length + 1,
+        sorted_order: `${tasks.length + 1}`,
       };
   
       fetch('http://localhost:8000/api/addTask/', {
@@ -43,9 +47,14 @@ const TaskContainer = () => {
         },
         body: JSON.stringify(newTask),
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to add task'); // Throw an error when the response is not ok
+          }
+          return response.json(); // Return the JSON data from the response
+        })
         .then((data) => {
-          // Assign the ID received from the server to the new task
+         // Update the new task's ID with the server-provided ID
           setTasks([...tasks, newTask]);
           setTaskName('');
           setTaskDescription('');
@@ -66,7 +75,7 @@ const TaskContainer = () => {
     setTasks(reorderedTasks);
   };
 
-  return (
+  return (<>
     <Container className="d-flex flex-column align-items-center justify-content-center" style={{ padding: '5px' }}>
       <Card>
         <Card.Body>
@@ -101,8 +110,8 @@ const TaskContainer = () => {
           </Droppable>
         </DragDropContext>
       </div>
-    </Container>
-  );
+            </Container>
+      </>  );
 };
 
 export default TaskContainer;

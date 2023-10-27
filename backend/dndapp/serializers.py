@@ -4,10 +4,10 @@ from .models import Tasks, Comments
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tasks
-        fields = ['id', 'name', 'description', 'sorted_order', 'date_created', 'date_updated', 'date_deleted']
+        fields = ['strID', 'name', 'description', 'sorted_order', 'date_created', 'date_updated', 'date_deleted']
 
 class CommentsSerializer(serializers.ModelSerializer):
     task = TaskSerializer()  
     class Meta:
         model = Comments
-        fields = ['id', 'task', 'task_comment', 'date_created', 'date_updated', 'date_deleted']
+        fields = ['strID', 'task', 'task_comment', 'date_created', 'date_updated', 'date_deleted']

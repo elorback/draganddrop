@@ -16,7 +16,8 @@ const TaskCard = ({name,order}) =>{
     <Card>
         <Card.Body>
         <Card.Title> Task: {name}</Card.Title>
-        <Card.Header> Task Number: {order}</Card.Header>
+        <Card.Header> Task Number: {order}
+        </Card.Header>
         <Button onClick={handleShowDetails}> Show Details </Button>
     </Card.Body>
     </Card>
