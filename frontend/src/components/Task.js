@@ -19,18 +19,18 @@ const Task = ({id,name, description, order, show, handleClose }) => {
 
   const handleUpdateDescription = () => {
     // Create an object with the updated description
-    const updatedTask = {
+    const updatedTaskDescription = {
       description: taskDescription,
     };
   
     const updateDescription = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/tasks/${id}/`, {
+        const response = await fetch(`http://localhost:8000/api/tasks/${order}/`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(updatedTask), // Send the updatedTask object
+          body: JSON.stringify(updatedTaskDescription), // Send the updatedTask object
         });
   
         if (!response.ok) {
@@ -41,6 +41,7 @@ const Task = ({id,name, description, order, show, handleClose }) => {
         // For example, you might want to refresh the task details.
         // setTaskDescription(updatedTask.description);
         setIsEditingDescription(false);
+        setTaskDescription(taskDescription)
       } catch (error) {
         console.error('Error:', error);
       }
