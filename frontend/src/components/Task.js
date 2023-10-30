@@ -8,13 +8,14 @@ const Task = ({id,name, description, order, show, handleClose }) => {
   const [commentText, setCommentText] = useState('');
   const [taskDescription, setTaskDescription] = useState(description);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
+  const [comments] = useState([])
  
 
   const handleAddComment = () => {
-    // if (commentText.trim() !== '') {
-    //   comments.push(commentText);
-    //   setCommentText('');
-    // }
+    if (commentText.trim() !== '') {
+      comments.push(commentText);
+      setCommentText('');
+    }
   };
 
   const handleUpdateDescription = () => {
@@ -69,7 +70,7 @@ return (
     <Modal.Header closeButton>  
       <Modal.Title> Task: {name} <br/>Task Number: {order}
       <br/>
-      Task Description: {description}
+      Task Description: {taskDescription}
       {isEditingDescription ? (
             <InputGroup>
               <Form.Control
@@ -88,11 +89,11 @@ return (
     </Modal.Header>
     
     <Modal.Body>
-        {/* <ul>
+        <ul>
             {comments.map((comment, index) => (
               <li key={index}>{comment}</li>
             ))}
-        </ul> */}
+        </ul>
     </Modal.Body>
       <Modal.Footer>
           <div>         
