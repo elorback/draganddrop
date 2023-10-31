@@ -7,7 +7,6 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = ['strID', 'name', 'description', 'sorted_order', 'date_created', 'date_updated']
 
 class CommentsSerializer(serializers.ModelSerializer):
-    task = TaskSerializer()  
     class Meta:
         model = Comments
-        fields = ['strID', 'task', 'task_comment', 'date_created', 'date_updated']
+        fields = [ 'task_comment', 'task_name','task','sorted_order', 'date_created', 'date_updated']

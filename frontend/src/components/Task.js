@@ -4,19 +4,13 @@ import Button from 'react-bootstrap/Button';
 import { InputGroup, Form } from 'react-bootstrap';
 import { Modal } from 'react-bootstrap';
 
-const Task = ({id,name, description, order, show, handleClose }) => {
+const Task = ({name, description, order, show, handleClose }) => {
   const [commentText, setCommentText] = useState('');
   const [taskDescription, setTaskDescription] = useState(description);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
-  const [comments] = useState([])
+  const [comments,setComments] = useState([])
  
 
-  const handleAddComment = () => {
-    if (commentText.trim() !== '') {
-      comments.push(commentText);
-      setCommentText('');
-    }
-  };
 
   const handleUpdateDescription = () => {
     // Create an object with the updated description
@@ -38,11 +32,9 @@ const Task = ({id,name, description, order, show, handleClose }) => {
           throw new Error('Failed to update task description');
         }
   
-        // You can update your state or perform any other actions here.
-        // For example, you might want to refresh the task details.
-        // setTaskDescription(updatedTask.description);
+      
         setIsEditingDescription(false);
-        setTaskDescription(taskDescription)
+        setTaskDescription(updatedTaskDescription.description)
       } catch (error) {
         console.error('Error:', error);
       }
@@ -57,11 +49,37 @@ const Task = ({id,name, description, order, show, handleClose }) => {
     setIsEditingDescription(false);
   };
 
-  useEffect(()=>{
-
-
-
-  },[])
+  const handleAddComment = async () => {
+    if (commentText.trim() !== '') {
+      const newComment = {
+        task_comment: commentText,
+        task_name: name,
+        task:name,
+        sorted_order: order,
+      };
+  
+      try {
+        const response = await fetch(`http://localhost:8000/api/addComment/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newComment),
+        });
+          console.log(newComment);
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Failed to add comment:', errorData);
+        } 
+       
+          setComments([...comments, newComment]);
+          setCommentText('');
+        
+      } catch (error) {
+        console.error( error);
+      }
+    }
+  };
 
 
  

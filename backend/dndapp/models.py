@@ -16,9 +16,10 @@ class Tasks(models.Model):
         db_table = 'Tasks'
 
 class Comments(models.Model):
-    strID= models.CharField(max_length=50)
     task_comment = models.CharField(max_length=150)
-    task_name = models.ForeignKey(Tasks, on_delete=models.CASCADE)
+    task = models.ForeignKey(Tasks, on_delete=models.CASCADE,to_field='name')
+    task_name = models.CharField( max_length=50)
+    sorted_order = models.IntegerField(default=0)
     date_created = models.DateField(auto_now=True)
     date_updated = models.DateField(auto_now=True)
     
