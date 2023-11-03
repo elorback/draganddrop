@@ -23,7 +23,6 @@ const Task = ({ name, description, order, show, handleClose }) => {
       }
       
       const data = await response.json();
-      console.log(...data)
       setComments(data); // Update the comments state
     } catch (error) {
       console.error('Error:', error);

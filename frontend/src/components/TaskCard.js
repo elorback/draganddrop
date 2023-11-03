@@ -10,6 +10,7 @@ const TaskCard = ({ id, name, description, order }) => {
   const handleShowDetails = () => {
     setShowModal(true);
   };
+  
 
   return (
     <>
