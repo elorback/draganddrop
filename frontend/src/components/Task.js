@@ -13,7 +13,7 @@ const Task = ({ name, description, order, show, handleClose }) => {
   
   
   
-  
+  // get comments for a task
   const fetchComments = useCallback(async () => {
     try {
       const response = await fetch(`http://localhost:8000/api/comments/${order}/`);
@@ -29,10 +29,30 @@ const Task = ({ name, description, order, show, handleClose }) => {
     }
   },[order]);
   
+  // on opening the model fetch the description
+  const getTaskDescription = useCallback( async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/tasks/${order}/`, {
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update task description');
+      }
+      const data = await response.json()
+      console.log(data.description)
+      setTaskDescription(data.description);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  },[order]);
+// hadnles modification of states on the description if updated
+// or task description also if updated without reloading the screen
   useEffect(()=>{
     fetchComments();
-  },[fetchComments]);
+    getTaskDescription();
+  },[fetchComments,getTaskDescription]);
   
+  //add comment funciton
   const handleAddComment = () => {
     if (commentText.trim() !== '') {
       const newComment = {
@@ -65,6 +85,7 @@ const Task = ({ name, description, order, show, handleClose }) => {
     }
   };
 
+  //updates the description to the backend
   const handleUpdateDescription = () => {
     // Create an object with the updated description
     const updatedTaskDescription = {
@@ -94,7 +115,7 @@ const Task = ({ name, description, order, show, handleClose }) => {
 
     updateDescription();
   };
-
+// cancel button logic
   const handleCancelUpdate = () => {
     setTaskDescription(description);
     setIsEditingDescription(false);
