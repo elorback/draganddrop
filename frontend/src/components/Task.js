@@ -38,9 +38,8 @@ const Task = ({ name, description, order, show, handleClose }) => {
       if (!response.ok) {
         throw new Error('Failed to update task description');
       }
-      const data = await response.json()
-      console.log(data.description)
-      setTaskDescription(data.description);
+      const task = await response.json()
+      setTaskDescription(task.description);
     } catch (error) {
       console.error('Error:', error);
     }

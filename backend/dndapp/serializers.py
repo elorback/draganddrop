@@ -4,7 +4,7 @@ from .models import Tasks, Comments
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tasks
-        fields = ['strID', 'name', 'description', 'sorted_order', 'date_created', 'date_updated']
+        fields = ['name', 'description', 'sorted_order', 'date_created', 'date_updated']
 
 class CommentsSerializer(serializers.ModelSerializer):
     class Meta:

@@ -6,7 +6,7 @@ const TaskList = ({tasks}) => {
   return (
     <ul>
       {tasks.map((task, index) => (
-        <Draggable key={task.strID} draggableId={task.strID} index={index}>
+        <Draggable key={task.name} draggableId={task.name} index={index}>
           {(provided) => (
             <div
               ref={provided.innerRef}
