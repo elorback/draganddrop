@@ -27,7 +27,7 @@ and:
     "web-vitals": "^2.1.4"
   },
 
-# run the below pip command:
+# run the below pip command from ./draganddrop  directory (root):
 pip install -r requirements.txt
 
 # to run project cd into frontend folder from root directory:
