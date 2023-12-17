@@ -1,0 +1,6 @@
+Django                      
+django-classy-tags          
+django-cors-headers         
+django-filter              
+django-sekizai               
+djangorestframework          
