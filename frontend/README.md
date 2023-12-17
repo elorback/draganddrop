@@ -1,4 +1,4 @@
-for this project cd into the fronend folder and take these steps:
+# cd into frontend folder and install these dependencies:
 
 install these dependencies:
 
@@ -27,8 +27,12 @@ and:
     "web-vitals": "^2.1.4"
   },
 
+# run the below pip command:
 pip install -r requirements.txt
 
-to run project cd into frontend and run:
+# to run project cd into frontend folder from root directory:
+cd ./draganddrop/frontend
+
+# then
 
 npm start
